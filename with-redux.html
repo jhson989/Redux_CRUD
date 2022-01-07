@@ -1,0 +1,73 @@
+<html>
+    <head>
+        Redux Tutorial
+        <style>
+            .container {
+                border: 5px solid black;
+                padding: 10px;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js"></script>
+
+    </head>
+
+
+    <body>
+        <div id='red'><div class='container' id='component_red'>
+            <h1>RED</h1>
+            <input type='button' value='fire' onclick="dispatch_red();">
+        </div></div>
+        <div id='blue'><div class='container' id='component_blue'>
+            <h1>BLUE</h1>
+            <input type='button' value='fire' onclick="dispatch_blue();">
+        </div></div>
+        <div id='green'><div class='container' id='component_green'>
+            <h1>GREEN</h1>
+            <input type='button' value='fire' onclick="dispatch_green();">
+        </div></div>
+
+
+
+    
+        <script>
+            function reducer(state, action) {
+
+                if(state == undefined) {
+                    return {color:'yellow'};
+                } 
+
+                var newState;
+
+                if (action.type == 'CHANGE_COLOR') {
+                    newState = Object.assign({}, state, {color:action.color});
+                }
+
+                return newState;
+            }
+            var store = Redux.createStore(reducer);
+            store.subscribe(change_color);
+
+            function dispatch_red() {
+                store.dispatch({type:'CHANGE_COLOR', color:'red'});
+            }
+            function dispatch_blue() {
+                store.dispatch({type:'CHANGE_COLOR', color:'blue'});
+            }
+            function dispatch_green() {
+                store.dispatch({type:'CHANGE_COLOR', color:'green'});
+            }
+
+            function change_color() {
+                var containers = document.querySelectorAll('.container');
+                containers.forEach(function(container) {
+                    container.style.backgroundColor = store.getState().color;
+                })
+            }
+            change_color();
+
+        </script>
+
+
+
+    </body>
+</html>
